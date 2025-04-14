@@ -1,19 +1,75 @@
+/* App.css */
+
 body {
   margin: 0;
   padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f9fc;
+  color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
-  background-color: #ffffff; /* Optional: match background */
+  min-height: 100vh;
 }
 
 .container {
-  max-width: 600px;
   width: 100%;
-  padding: 20px;
-  border-radius: 12px;
-  background: #f0f8ff;
-  font-family: Arial, sans-serif;
-  box-shadow: none !important; /* 🚫 Force remove shadow */
+  max-width: 500px;
+  padding: 30px 25px;
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #0077cc;
+  font-size: 24px;
+}
+
+h3 {
+  color: #444;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.section {
+  margin-top: 30px;
+}
+
+input[type="number"] {
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  margin: 10px 0 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.button {
+  padding: 12px 24px;
+  margin: 8px 4px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #005fa3;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+strong {
+  color: #222;
 }
