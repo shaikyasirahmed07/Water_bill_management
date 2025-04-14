@@ -56,9 +56,16 @@ const UserPage = () => {
             return;
         }
 
+        const billInWei = ethers.parseEther(userBill.amount); // Get the bill amount in Wei
+
+        if (ethers.parseEther(billAmount).lt(billInWei)) {
+            alert("Insufficient payment. Please enter the correct amount.");
+            return;
+        }
+
         try {
             const tx = await contract.payBill({
-                value: ethers.parseEther(billAmount) // Convert ETH to wei
+                value: billInWei // Ensure to pay the exact amount (in wei)
             });
             await tx.wait();
             alert("✅ Bill paid!");
