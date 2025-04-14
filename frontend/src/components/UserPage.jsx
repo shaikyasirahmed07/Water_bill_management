@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import contractJson from "../artifacts/contracts/WaterBill.sol/WaterBill.json";
 import '../App.css';
 
-const contractAddress = "0xC94894Ca2B21051ceE68409387c34Cb885d3c66E"; // ⬅️ Update this
+const contractAddress = "0xC94894Ca2B21051ceE68409387c34Cb885d3c66E"; // ✅ Update this if needed
 const contractABI = contractJson.abi;
 
 const UserPage = () => {
@@ -35,32 +35,37 @@ const UserPage = () => {
         }
     };
 
-    const payBill = async () => {
-        if (!contract) return alert("Connect to wallet first!");
-        try {
-            const tx = await contract.payBill({
-                value: ethers.parseUnits(billAmount, "wei") // use correct unit
-            });
-            await tx.wait();
-            alert("Bill paid!");
-            fetchBill(contract);
-        } catch (err) {
-            console.error(err);
-            alert("Payment failed.");
-        }
-    };
-
     const fetchBill = async (instance = contract) => {
         if (!instance) return;
         try {
             const bill = await instance.getMyBill();
             setUserBill({
-                amount: ethers.formatEther(bill[0]),
+                amount: ethers.formatEther(bill[0]), // convert wei → ETH
                 paid: bill[1],
             });
         } catch (err) {
             console.error(err);
             alert("Could not fetch your bill.");
+        }
+    };
+
+    const payBill = async () => {
+        if (!contract) return alert("Connect to wallet first!");
+        if (!userBill || userBill.amount === "0.0") {
+            alert("No bill generated yet. Please contact admin.");
+            return;
+        }
+
+        try {
+            const tx = await contract.payBill({
+                value: ethers.parseEther(billAmount) // Convert ETH to wei
+            });
+            await tx.wait();
+            alert("✅ Bill paid!");
+            fetchBill(contract);
+        } catch (err) {
+            console.error(err);
+            alert("❌ Payment failed.");
         }
     };
 
@@ -75,16 +80,20 @@ const UserPage = () => {
                 value={billAmount}
                 onChange={(e) => setBillAmount(e.target.value)}
             />
-            <button onClick={payBill} className="button">Pay Bill</button>
+            <button onClick={payBill} className="button" disabled={!userBill || userBill.amount === "0.0" || userBill.paid}>
+                Pay Bill
+            </button>
 
             <div className="section">
                 <h3>📜 Your Bill Info</h3>
                 <button onClick={() => fetchBill()} className="button">Refresh</button>
-                {userBill && (
+                {userBill ? (
                     <p>
                         <strong>Amount:</strong> {userBill.amount} ETH<br />
                         <strong>Status:</strong> {userBill.paid ? "✅ Paid" : "❌ Unpaid"}
                     </p>
+                ) : (
+                    <p>No bill found. Please wait for admin to generate it.</p>
                 )}
             </div>
         </div>
