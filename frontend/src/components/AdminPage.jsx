@@ -35,6 +35,8 @@ const AdminPage = () => {
 
     const generateBill = async () => {
         if (!contract) return alert("Connect to wallet first!");
+        if (!ethers.isAddress(account)) return alert("Invalid address.");
+        
         try {
             const tx = await contract.generateBill(ethers.parseEther(billAmount));
             await tx.wait();
