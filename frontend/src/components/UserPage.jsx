@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import contractJson from "../artifacts/contracts/WaterBill.sol/WaterBill.json";
 import '../App.css';
 
-const contractAddress = "0x4B92F9f60C4269F99eEC4E6890fc1b91258Cc5ce";
+const contractAddress = "0x5BE45A2f9Bdec87447f73b9847A0E3AFdD3e9791"; // ⬅️ Update this
 const contractABI = contractJson.abi;
 
 const UserPage = () => {
@@ -20,7 +20,7 @@ const UserPage = () => {
         if (window.ethereum) {
             try {
                 const provider = new ethers.BrowserProvider(window.ethereum);
-                await window.ethereum.request({ method: "eth_requestAccounts" });
+                await provider.send("eth_requestAccounts", []);
                 const signer = await provider.getSigner();
                 const userAddress = await signer.getAddress();
                 setAccount(userAddress);
@@ -38,7 +38,9 @@ const UserPage = () => {
     const payBill = async () => {
         if (!contract) return alert("Connect to wallet first!");
         try {
-            const tx = await contract.payBill({ value: ethers.parseEther(billAmount) });
+            const tx = await contract.payBill({
+                value: ethers.parseUnits(billAmount, "wei") // use correct unit
+            });
             await tx.wait();
             alert("Bill paid!");
             fetchBill(contract);
