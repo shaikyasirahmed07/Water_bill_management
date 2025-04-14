@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import contractJson from "../artifacts/contracts/WaterBill.sol/WaterBill.json";
 import '../App.css';
 
-const contractAddress = "0x5BE45A2f9Bdec87447f73b9847A0E3AFdD3e9791";
+const contractAddress = "0x24CF1CF3db0BE4a33f4e32935A917d49B2d73e3b";
 const contractABI = contractJson.abi;
 
 const AdminPage = () => {
