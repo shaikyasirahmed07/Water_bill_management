@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import contractJson from "../artifacts/contracts/WaterBill.sol/WaterBill.json";
 import '../App.css';
 
-const contractAddress = "0x2a25F6402d4c7BD99a7E07706fDc142fA5581797";
+const contractAddress = "0x5BE45A2f9Bdec87447f73b9847A0E3AFdD3e9791";
 const contractABI = contractJson.abi;
 
 const AdminPage = () => {
@@ -35,8 +35,6 @@ const AdminPage = () => {
 
     const generateBill = async () => {
         if (!contract) return alert("Connect to wallet first!");
-        if (!ethers.isAddress(account)) return alert("Invalid address.");
-        
         try {
             const tx = await contract.generateBill(ethers.parseEther(billAmount));
             await tx.wait();
